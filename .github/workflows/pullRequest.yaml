@@ -11,6 +11,9 @@ on:
 jobs:
   trigger-script:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ProjectName: [ github-integration-demo-cli,github-integration-demo-cli-02 ]
 
     steps:
       - name: Checkout code
@@ -36,5 +39,5 @@ jobs:
           export LT_USERNAME=${{ vars.LT_USERNAME }}
           export LT_ACCESS_KEY=${{ vars.LT_KEY }}
           npm i @lambdatest/smartui-cli@latest
-          npx smartui exec -- mvn test -D suite=sdk-cloud.xml
-          npx smartui exec -- mvn test -D suite=sdk-cloud.xml
+          export PROJECT=${{ matrix.ProjectName }}
+          npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
