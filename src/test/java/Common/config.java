@@ -14,7 +14,7 @@ public class config {
 
     //***************************Common config***********************
 
-    public String projectName= System.getenv("PROJECT_NAME")==null?"github-integration-demo-cli":System.getenv("PROJECT_NAME");
+    public String projectName= System.getenv("PROJECT")==null?"github-integration-demo-cli":System.getenv("PROJECT_NAME");
     public String ssName= "screenShot_01";
     public WebElement currElement;
 
