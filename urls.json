@@ -1,0 +1,11 @@
+[
+  {
+    "name": "ss-01",
+    "url": "https://ipinfo.io/",
+    "waitForTimeout": 1000
+  },
+  {
+    "name": "ss-02",
+    "url": "https://fast.com/"
+  }
+]

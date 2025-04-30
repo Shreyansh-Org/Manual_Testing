@@ -1,0 +1,16 @@
+{
+  "web": {
+    "browsers": ["chrome", "safari", "edge"]
+  },
+  "figma": {
+    "depth": 2,
+    "configs": [
+      {
+        "figma_file_token": "LgVx5Io5M0On0YYNBe41Yk",
+        "figma_ids": [
+          "5291-82648"
+        ]
+      }
+    ]
+  }
+}
