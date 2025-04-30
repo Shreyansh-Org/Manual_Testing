@@ -42,6 +42,5 @@ jobs:
           export LT_USERNAME=${{ vars.LT_USERNAME }}
           export LT_ACCESS_KEY=${{ vars.LT_KEY }}
           npm i @lambdatest/smartui-cli@latest
-          export SMARTUI_CLIENT_API_URL=https://stage-api.lambdatestinternal.com/visualui/1.0
           export PROJECT=${{ matrix.ProjectName }}
           npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
