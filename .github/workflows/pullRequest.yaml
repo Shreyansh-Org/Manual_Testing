@@ -38,6 +38,7 @@ jobs:
           export GITHUB_URL
           export LT_USERNAME=${{ vars.LT_USERNAME }}
           export LT_ACCESS_KEY=${{ vars.LT_KEY }}
+          export PROJECT_NAME=github-integration-demo-cli-01
           npm i @lambdatest/smartui-cli@latest
           export SMARTUI_CLIENT_API_URL=https://stage-api.lambdatestinternal.com/visualui/1.0
           npx smartui --config smartui-cli.json exec -- mvn test -D suite=sdk-cloud.xml
