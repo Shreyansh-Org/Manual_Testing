@@ -21,7 +21,7 @@ public class BaseClassCliCloud extends config {
     @BeforeClass
     public void setup() throws MalformedURLException {
 
-        Map<String,String> map= getStageConfig();
+        Map<String,String> map= getProdConfig();
 
         String username = System.getenv("LT_USERNAME") == null
           ? "Your LT Username"
