@@ -5,7 +5,7 @@
         <classes>
             <class name="cli_SDK.CloudTest">
                 <methods>
-                    <include name="localTunnel"/>
+                    <include name="test1"/>
                 </methods>
             </class>
         </classes>

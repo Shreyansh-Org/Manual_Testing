@@ -14,7 +14,7 @@ public class config {
 
     //***************************Common config***********************
 
-    public String projectName= "github-integration-demo";
+    public String projectName= "github-integration-demo-cli";
     public String ssName= "screenShot_01";
     public WebElement currElement;
 

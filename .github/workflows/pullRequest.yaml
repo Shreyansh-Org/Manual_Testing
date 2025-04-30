@@ -38,4 +38,6 @@ jobs:
           export GITHUB_URL
           export LT_USERNAME=${{ vars.LT_USERNAME }}
           export LT_ACCESS_KEY=${{ vars.LT_KEY }}
-          mvn test -D suite=webhook.xml
+          npm i @lambdatest/smartui-cli@latest
+          npx smartui exec -- mvn test -D suite=sdk-cloud.xml
+          npx smartui exec -- mvn test -D suite=sdk-cloud.xml

@@ -23,8 +23,12 @@ public class BaseClassCliCloud extends config {
 
         Map<String,String> map= getStageConfig();
 
-        String username = map.get("userName");
-        String authkey = map.get("accessKey");
+        String username = System.getenv("LT_USERNAME") == null
+          ? "Your LT Username"
+          : System.getenv("LT_USERNAME");
+        String authkey = System.getenv("LT_ACCESS_KEY") == null
+          ? "Your LT AccessKey"
+          : System.getenv("LT_ACCESS_KEY");
         String hub = map.get("hub");
 
         ChromeOptions browserOptions = new ChromeOptions();
@@ -36,8 +40,7 @@ public class BaseClassCliCloud extends config {
         ltOptions.put("network", true);
         ltOptions.put("build", "Build01");
         ltOptions.put("project", "Project01");
-//        ltOptions.put("tunnel", true);
-//        ltOptions.put("tunnelName","4a274387-0e8b-4482-bbd2-5d3cdfde39f8");
+        ltOptions.put("smartUI.project", projectName);
         ltOptions.put("w3c", true);
         ltOptions.put("plugin", "java-java");
         browserOptions.setCapability("LT:Options", ltOptions);
@@ -50,7 +53,6 @@ public class BaseClassCliCloud extends config {
         System.out.println(browserOptions);
         String remoteUrl= "https://" + username + ":" + authkey + hub;
         System.out.println(remoteUrl);
-        System.out.println(System.getenv("LT_ACCESS_KEY"));
         driver = new RemoteWebDriver(new URL(remoteUrl), browserOptions);
 
     }
