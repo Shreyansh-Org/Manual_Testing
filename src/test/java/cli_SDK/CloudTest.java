@@ -55,7 +55,7 @@ public class CloudTest extends BaseClassCliCloud {
         System.out.println("Loading Url");
         driver.get("https://fast.com/");
         Thread.sleep(3000);
-        SmartUISnapshot.smartuiSnapshot(driver, "ignoreOptionsScreenshot", ignoreOptions);
+        SmartUISnapshot.smartuiSnapshot(driver, "ignoreOptionsScreenshot01", ignoreOptions);
         Thread.sleep(2000);
         SmartUISnapshot.smartuiSnapshot(driver, "selectOptionsScreenshot", selectOptions);
         Thread.sleep(1000);
