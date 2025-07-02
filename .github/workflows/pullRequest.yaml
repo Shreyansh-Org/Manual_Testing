@@ -62,6 +62,7 @@ jobs:
       #     npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-local.xml
 
       - name: Run Automation Script SDK Cloud And Local Stage
+        working-directory: Manual_Testing
         run: |
           echo "Running SmartUI CLI..."
           export LT_USERNAME=shreyanshc
