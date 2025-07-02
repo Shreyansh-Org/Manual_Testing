@@ -34,17 +34,20 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          export LT_USERNAME=${{ vars.LT_USERNAME }}
-          export LT_ACCESS_KEY=${{ vars.LT_KEY }}
-          npm i @lambdatest/smartui-cli@latest  
-          export PROJECT=${{ matrix.ProjectName }}  
+          npm i @lambdatest/smartui-cli@latest    
 
       - name: Run Automation Script SDK Cloud
         run: |
           echo "Running SmartUI CLI..."
+          export LT_USERNAME=${{ vars.LT_USERNAME }}
+          export LT_ACCESS_KEY=${{ vars.LT_KEY }}
+          export PROJECT=${{ matrix.ProjectName }}
           npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
 
       - name: Run Automation Script SDK Local
         run: |
           echo "Running SmartUI CLI..."
+          export LT_USERNAME=${{ vars.LT_USERNAME }}
+          export LT_ACCESS_KEY=${{ vars.LT_KEY }}
+          export PROJECT=${{ matrix.ProjectName }}
           npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-local.xml
