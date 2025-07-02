@@ -314,6 +314,10 @@ public class LocalTest extends BaseClassCliLocal {
     public void testIm() throws Exception {
         driver.get("https://demo.testim.io/login");
         SmartUISnapshot.smartuiSnapshot(driver,"TestIm");
+        driver.get("https://ipinfo.io/");
+        SmartUISnapshot.smartuiSnapshot(driver,"Ip-info");
+        driver.get("https://fast.com/");
+        SmartUISnapshot.smartuiSnapshot(driver,"fast");
     }
 
 }

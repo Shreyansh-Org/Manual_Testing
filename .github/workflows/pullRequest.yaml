@@ -13,30 +13,67 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout smartui-cli
+        uses: actions/checkout@v4
+        with:
+          repository: LambdaTest/smartui-cli
+          ref: stage
+          path: smartui-cli
+
+      - name: Build smartui-cli
+        working-directory: smartui-cli
+        run: |
+          git branch
+          rm pnpm-lock.yaml
+          npm install -g pnpm
+          pnpm i
+          pnpm run build
+          npx playwright install
+          echo "CLI_DIR=$(pwd)" >> $GITHUB_ENV    
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 10
+          path: Manual_Testing
+          ref: ${{ github.head_ref }}
 
       - name: Get latest commit ID
+        working-directory: Manual_Testing
         id: commit
         run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Commit Status URL
+        working-directory: Manual_Testing
         run: |
           COMMIT_ID=${{ steps.commit.outputs.sha }}
           GITHUB_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${COMMIT_ID}"
           echo "GITHUB_URL=$GITHUB_URL" >> $GITHUB_ENV     
 
-      - name: Run Automation Script SDK Cloud And Local
+      # - name: Run Automation Script SDK Cloud And Local
+      #   run: |
+      #     echo "Running SmartUI CLI..."
+      #     export LT_USERNAME=${{ vars.LT_USERNAME }}
+      #     export LT_ACCESS_KEY=${{ vars.LT_KEY }}
+      #     export PROJECT=github-integration-demo-cli
+      #     npm i @lambdatest/smartui-cli@latest
+      #     npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
+      #     export PROJECT_NAME=github-integration-demo-cli-02
+      #     export GITHUB_ACTIONS="true"
+      #     export GITHUB_REPOSITORY="Shreyansh-Org/Manual_Testing"
+      #     npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-local.xml
+
+      - name: Run Automation Script SDK Cloud And Local Stage
+        working-directory: Manual_Testing
         run: |
           echo "Running SmartUI CLI..."
-          export LT_USERNAME=${{ vars.LT_USERNAME }}
-          export LT_ACCESS_KEY=${{ vars.LT_KEY }}
-          export PROJECT=github-integration-demo-cli
-          npm i @lambdatest/smartui-cli@latest
-          npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
+          export LT_USERNAME=shreyanshc
+          export LT_ACCESS_KEY=LT_BgJooFhOV3XInNXpJPwVuoXXI47Pte7SuReVtDkHgKYeHkq
+          export SMARTUI_CLIENT_API_URL=https://stage-api.lambdatestinternal.com/visualui/1.0
+          echo $CLI_DIR
+          npm i "$CLI_DIR"
           export PROJECT_NAME=github-integration-demo-cli-02
           export GITHUB_ACTIONS="true"
           export GITHUB_REPOSITORY="Shreyansh-Org/Manual_Testing"
-          npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-local.xml
+          echo $GITHUB_URL
+          npx smartui --config smartui-cli.json --githubURL ${GITHUB_URL} exec -- mvn -q test -D suite=sdk-local.xml    
