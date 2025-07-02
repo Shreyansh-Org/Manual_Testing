@@ -49,4 +49,5 @@ jobs:
           export PROJECT=${{ matrix.ProjectName }}
           # npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
           export PROJECT_NAME=${{ matrix.ProjectName }}
+          killall chrome
           npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-local.xml
