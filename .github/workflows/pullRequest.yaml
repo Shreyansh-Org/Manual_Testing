@@ -49,5 +49,5 @@ jobs:
           echo "Running SmartUI CLI..."
           export LT_USERNAME=${{ vars.LT_USERNAME }}
           export LT_ACCESS_KEY=${{ vars.LT_KEY }}
-          export PROJECT=${{ matrix.ProjectName }}
+          export PROJECT_NAME=${{ matrix.ProjectName }}
           npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-local.xml
