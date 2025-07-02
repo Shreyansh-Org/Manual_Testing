@@ -36,7 +36,7 @@ jobs:
         with:
           fetch-depth: 10
           path: Manual_Testing
-          # ref: ${{ github.head_ref }}
+          ref: ${{ github.head_ref }}
 
       - name: Get latest commit ID
         working-directory: Manual_Testing
