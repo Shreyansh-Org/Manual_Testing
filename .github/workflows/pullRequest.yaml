@@ -47,10 +47,8 @@ jobs:
           echo "Running SmartUI CLI..."
           export LT_USERNAME=shreyanshc
           export LT_ACCESS_KEY=LT_BgJooFhOV3XInNXpJPwVuoXXI47Pte7SuReVtDkHgKYeHkq
-          export PROJECT=github-integration-demo-cli
           export SMARTUI_CLIENT_API_URL=https://stage-api.lambdatestinternal.com/visualui/1.0
           npm i @lambdatest/smartui-cli@latest
-          # npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
           export PROJECT_NAME=github-integration-demo-cli-02
           export GITHUB_ACTIONS="true"
           export GITHUB_REPOSITORY="Shreyansh-Org/Manual_Testing"
