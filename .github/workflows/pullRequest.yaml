@@ -36,6 +36,16 @@ jobs:
       - name: Run Automation Script
         run: |
           echo "Running SmartUI CLI..."
+          API_HOST=https://api.github.com
+          echo "The latest commitId is $COMMIT_ID"
+          # GITHUB_URL=$API_HOST/repos/$GITHUB_REPOSITORY/statuses/$COMMIT_ID
+          # echo "GITHUB_URL: $GITHUB_URL"
+          # echo "GITHUB_URL=$GITHUB_URL" >> $GITHUB_ENV
+
+      - name: Run Automation Script
+        run: |
+          export GITHUB_URL
+          export GITHUB_ACTIONS="true"
           export LT_USERNAME=${{ vars.LT_USERNAME }}
           export LT_ACCESS_KEY=${{ vars.LT_KEY }}
           npm i @lambdatest/smartui-cli@latest
