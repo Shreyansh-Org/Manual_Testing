@@ -36,6 +36,11 @@ jobs:
         run: |
           npm i @lambdatest/smartui-cli@latest    
 
+      - name: Setup Chrome and ChromeDriver
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: latest   
+
       - name: Run Automation Script SDK Cloud And Local
         run: |
           echo "Running SmartUI CLI..."
