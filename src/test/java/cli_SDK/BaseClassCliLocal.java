@@ -17,6 +17,8 @@ public class BaseClassCliLocal extends config {
 
         WebDriverManager.chromedriver().setup();
         ChromeOptions options= new ChromeOptions();
+        options.addArguments("--headless");  // Run in headless mode
+        options.addArguments("--no-sandbox");  // Bypass OS security model
         driver= new ChromeDriver(options);
         driver.manage().window().maximize();
         System.out.println("Chrome Driver initiated");

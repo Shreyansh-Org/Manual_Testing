@@ -1,47 +1,42 @@
-name: Pull Request To Main
+name: SmartUI GitHub Integration
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   trigger-script:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ProjectName: [github-integration-demo-cli,github-integration-demo-cli-02]
 
     steps:
-      - name: Checkout PR source branch
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
           fetch-depth: 10
 
-      - name: Step for pull_request event
-        run: |
-          echo "This is a pull_request event!"
-          git log -n 5 --format="%H %an %s" | while read line; do echo "$line"; done
-          echo "The latest commitId $(git log -n 1 --format='%H' | tail -n 1)"
-          echo "COMMIT_ID=$(git log -n 1 --format='%H' | tail -n 1)" >> $GITHUB_ENV
-        if: github.event_name == 'pull_request'
+      - name: Get latest commit ID
+        id: commit
+        run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Create Github URL
+      - name: Create GitHub Commit Status URL
         run: |
-          API_HOST=https://api.github.com
-          echo "The latest commitId is $COMMIT_ID"
-          # GITHUB_URL=$API_HOST/repos/$GITHUB_REPOSITORY/statuses/$COMMIT_ID
-          # echo "GITHUB_URL: $GITHUB_URL"
-          # echo "GITHUB_URL=$GITHUB_URL" >> $GITHUB_ENV
+          COMMIT_ID=${{ steps.commit.outputs.sha }}
+          GITHUB_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${COMMIT_ID}"
+          echo "GITHUB_URL=$GITHUB_URL" >> $GITHUB_ENV     
 
-      - name: Run Automation Script
+      - name: Run Automation Script SDK Cloud And Local
         run: |
-          export GITHUB_URL
-          export GITHUB_ACTIONS="true"
+          echo "Running SmartUI CLI..."
           export LT_USERNAME=${{ vars.LT_USERNAME }}
           export LT_ACCESS_KEY=${{ vars.LT_KEY }}
+          export PROJECT=github-integration-demo-cli
           npm i @lambdatest/smartui-cli@latest
-          export PROJECT=${{ matrix.ProjectName }}
           npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
+          export PROJECT_NAME=github-integration-demo-cli-02
+          export GITHUB_ACTIONS="true"
+          export GITHUB_REPOSITORY="Shreyansh-Org/Manual_Testing"
+          npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-local.xml
