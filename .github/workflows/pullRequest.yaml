@@ -13,6 +13,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout smartui-cli
+        uses: actions/checkout@v4
+        with:
+          repository: LambdaTest/smartui-cli
+          ref: stage
+          path: smartui-cli
+
+      - name: Build smartui-cli
+        working-directory: smartui-cli
+        run: |
+          git branch
+          rm pnpm-lock.yaml
+          npm install -g pnpm
+          pnpm i
+          pnpm run build
+          npx playwright install
+          echo "CLI_DIR=$(pwd)" >> $GITHUB_ENV    
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -48,7 +66,7 @@ jobs:
           export LT_USERNAME=shreyanshc
           export LT_ACCESS_KEY=LT_BgJooFhOV3XInNXpJPwVuoXXI47Pte7SuReVtDkHgKYeHkq
           export SMARTUI_CLIENT_API_URL=https://stage-api.lambdatestinternal.com/visualui/1.0
-          npm i @lambdatest/smartui-cli@latest
+          npm install "$CLI_DIR"
           export PROJECT_NAME=github-integration-demo-cli-02
           export GITHUB_ACTIONS="true"
           export GITHUB_REPOSITORY="Shreyansh-Org/Manual_Testing"
