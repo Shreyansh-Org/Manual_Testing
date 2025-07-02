@@ -52,4 +52,4 @@ jobs:
           export PROJECT_NAME=github-integration-demo-cli-02
           export GITHUB_ACTIONS="true"
           export GITHUB_REPOSITORY="Shreyansh-Org/Manual_Testing"
-          npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-local.xml    
+          npx smartui --config smartui-cli.json --githubURL ${GITHUB_URL} exec -- mvn -q test -D suite=sdk-local.xml    
