@@ -11,9 +11,6 @@ on:
 jobs:
   trigger-script:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ProjectName: [ github-integration-demo-cli ]
 
     steps:
       - name: Checkout code
@@ -37,9 +34,9 @@ jobs:
           echo "Running SmartUI CLI..."
           export LT_USERNAME=${{ vars.LT_USERNAME }}
           export LT_ACCESS_KEY=${{ vars.LT_KEY }}
-          export PROJECT=${{ matrix.ProjectName }}
+          export PROJECT=github-integration-demo-cli
+          export PROJECT_NAME=github-integration-demo-cli-02
           npm i @lambdatest/smartui-cli@latest
-          export PROJECT_NAME=${{ matrix.ProjectName }}
           export GITHUB_ACTIONS="true"
           export GITHUB_REPOSITORY="Shreyansh-Org/Manual_Testing"
           npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
