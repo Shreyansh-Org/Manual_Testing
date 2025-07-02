@@ -30,19 +30,7 @@ jobs:
         run: |
           COMMIT_ID=${{ steps.commit.outputs.sha }}
           GITHUB_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${COMMIT_ID}"
-          echo "GITHUB_URL=$GITHUB_URL" >> $GITHUB_ENV
-
-      - name: Install Dependencies
-        run: |
-          npm i @lambdatest/smartui-cli@latest    
-
-      - name: Setup Chrome and ChromeDriver
-        uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: latest   
-
-      - name: Install ChromeDriver
-        uses: nanasess/setup-chromedriver@v2    
+          echo "GITHUB_URL=$GITHUB_URL" >> $GITHUB_ENV     
 
       - name: Run Automation Script SDK Cloud And Local
         run: |
@@ -50,6 +38,7 @@ jobs:
           export LT_USERNAME=${{ vars.LT_USERNAME }}
           export LT_ACCESS_KEY=${{ vars.LT_KEY }}
           export PROJECT=${{ matrix.ProjectName }}
+          npm i @lambdatest/smartui-cli@latest
           # npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
           export PROJECT_NAME=${{ matrix.ProjectName }}
           npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-local.xml
