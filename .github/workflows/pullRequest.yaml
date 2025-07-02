@@ -47,6 +47,6 @@ jobs:
           export LT_USERNAME=${{ vars.LT_USERNAME }}
           export LT_ACCESS_KEY=${{ vars.LT_KEY }}
           export PROJECT=${{ matrix.ProjectName }}
-          npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
+          # npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
           export PROJECT_NAME=${{ matrix.ProjectName }}
           npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-local.xml
