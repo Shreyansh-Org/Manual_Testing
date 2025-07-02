@@ -66,7 +66,7 @@ jobs:
           export LT_USERNAME=shreyanshc
           export LT_ACCESS_KEY=LT_BgJooFhOV3XInNXpJPwVuoXXI47Pte7SuReVtDkHgKYeHkq
           export SMARTUI_CLIENT_API_URL=https://stage-api.lambdatestinternal.com/visualui/1.0
-          npm install "$CLI_DIR"
+          npm i "$CLI_DIR"
           export PROJECT_NAME=github-integration-demo-cli-02
           export GITHUB_ACTIONS="true"
           export GITHUB_REPOSITORY="Shreyansh-Org/Manual_Testing"
