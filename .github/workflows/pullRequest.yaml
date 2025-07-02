@@ -41,6 +41,9 @@ jobs:
         with:
           chrome-version: latest   
 
+      - name: Install ChromeDriver
+        uses: nanasess/setup-chromedriver@v2    
+
       - name: Run Automation Script SDK Cloud And Local
         run: |
           echo "Running SmartUI CLI..."
@@ -49,5 +52,4 @@ jobs:
           export PROJECT=${{ matrix.ProjectName }}
           # npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-cloud.xml
           export PROJECT_NAME=${{ matrix.ProjectName }}
-          killall chrome
           npx smartui --config smartui-cli.json exec -- mvn -q test -D suite=sdk-local.xml
