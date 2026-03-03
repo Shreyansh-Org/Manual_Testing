@@ -5,7 +5,7 @@
         <classes>
             <class name="cli_SDK.LocalTest">
                 <methods>
-                    <include name="localTunnel"/>
+                    <include name="testIm"/>
                 </methods>
             </class>
         </classes>
