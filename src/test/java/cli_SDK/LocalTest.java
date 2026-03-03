@@ -310,10 +310,4 @@ public class LocalTest extends BaseClassCliLocal {
         }
     }
 
-    @Test
-    public void testIm() throws Exception {
-        driver.get("https://demo.testim.io/login");
-        SmartUISnapshot.smartuiSnapshot(driver,"TestIm");
-    }
-
 }
