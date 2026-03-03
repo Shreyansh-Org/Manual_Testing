@@ -5,7 +5,8 @@
         <classes>
             <class name="cli_SDK.CloudTest">
                 <methods>
-                    <include name="test2"/>
+                    <include name="elementScreenshot"/>
+                    <include name="ignoreSelect"/>
                 </methods>
             </class>
         </classes>

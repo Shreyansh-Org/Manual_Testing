@@ -1,9 +1,9 @@
 package realDevice;
 
+import Common.config;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,19 +19,10 @@ import java.util.Map;
 
 public class GsWebSnapshotAndroid {
 
-    private static final String USERNAME = "shreyanshc";
-    private static final String AUTHKEY = "LT_WUaUMWBJGtWoVK1Kq1XKgwPDT8QnZsPFP4Ue93cz69dUMsU";
+    private static final String USERNAME = config.getUsername();
+    private static final String AUTHKEY = config.getAccessKey();
     private static final String CLIENT_USERNAME = "client5";
     private static final String CLIENT_PASSWORD = "simple123";
-
-    public static WebElement waitUntilElementIsPresent(WebDriver driver, long time, String element){
-        WebDriverWait wait= new WebDriverWait(driver,time);
-        try{
-            return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(element)));
-        }catch(Exception ignored){
-            return null;
-        }
-    }
 
     public static void main(String[] args) throws MalformedURLException, InterruptedException {
 
@@ -61,13 +52,13 @@ public class GsWebSnapshotAndroid {
         try {
             androidDriver.get("https://qa.goldman.com/");
 
-            WebElement currElement= waitUntilElementIsPresent(androidDriver,10,"//input[@data-target='user-id']");
+            WebElement currElement= config.waitUntilElementIsPresent(androidDriver,10,"//input[@data-target='user-id']");
             assert currElement != null;
             currElement.sendKeys(CLIENT_USERNAME);
-            currElement= waitUntilElementIsPresent(androidDriver,10,"//input[@class='form-control form-control-right-icon']");
+            currElement= config.waitUntilElementIsPresent(androidDriver,10,"//input[@class='form-control form-control-right-icon']");
             assert  currElement != null;
             currElement.sendKeys(CLIENT_PASSWORD);
-            currElement= waitUntilElementIsPresent(androidDriver,10,"//button[@type='submit']");
+            currElement= config.waitUntilElementIsPresent(androidDriver,10,"//button[@type='submit']");
             assert currElement != null;
             currElement.click();
 

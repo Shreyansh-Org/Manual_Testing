@@ -24,8 +24,8 @@ public class GsWebSnapshotIos extends config {
 //        String stageHub= "@stage-hub.lambdatestinternal.com/wd/hub";
         boolean prodEnv = false;
 
-        String userName = "shreyanshc";
-        String accessKey = "LT_BgJooFhOV3XInNXpJPwVuoXXI47Pte7SuReVtDkHgKYeHkq";
+        String userName = getUsername();
+        String accessKey = getAccessKey();
         String buildName= generateRandomString(8);
         String projectName= "RealDevice_03";
 

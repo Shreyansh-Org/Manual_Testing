@@ -1,0 +1,7 @@
+[
+  {
+    "name": "cli-capture",
+    "url": "https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing",
+    "waitForTimeout": 30000
+  }
+]

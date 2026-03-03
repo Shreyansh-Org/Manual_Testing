@@ -2,7 +2,7 @@
   <profile version="1.0">
     <option name="myName" value="Project Default" />
     <inspection_tool class="ExtractMethodRecommender" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="minLength" value="721" />
+      <option name="minLength" value="1085" />
       <option name="maxParameters" value="1" />
     </inspection_tool>
     <inspection_tool class="ThrowablePrintStackTrace" enabled="true" level="WARNING" enabled_by_default="true">
@@ -12,6 +12,7 @@
       <option name="isIgnoringEnabled" value="true" />
       <option name="ignoredModules">
         <list>
+          <option value="ManualTestingJava" />
           <option value="ManualTestingJava" />
           <option value="ManualTestingJava" />
           <option value="ManualTestingJava" />
@@ -66,10 +67,12 @@
           <option value="com.squareup.okhttp3:okhttp:3.11.0" />
           <option value="com.squareup.okio:okio:1.14.0" />
           <option value="com.google.code.gson:gson:2.8.8" />
+          <option value="org.apache.commons:commons-lang3:3.14.0" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />

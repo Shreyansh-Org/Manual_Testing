@@ -1,0 +1,20 @@
+{
+  "web": {
+    "browsers": [
+      "safari",
+      "chrome",
+      "edge",
+      "firefox"
+    ],
+    "viewports": [
+      [
+        1920
+      ],
+      [
+        1028
+      ]
+    ]
+  },
+  "ignoreHTTPSErrors": true,
+  "smartIgnore": false
+}

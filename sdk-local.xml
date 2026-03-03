@@ -5,7 +5,8 @@
         <classes>
             <class name="cli_SDK.LocalTest">
                 <methods>
-                    <include name="localTunnel"/>
+                    <include name="ignoreSelect"/>
+                    <include name="elementScreenshot"/>
                 </methods>
             </class>
         </classes>

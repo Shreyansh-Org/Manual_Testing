@@ -1,5 +1,6 @@
 package realDevice;
 
+import Common.config;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GsWebSnapshotIpad {
-    private static final String USERNAME = "shreyanshc";
-    private static final String AUTHKEY = "LT_WUaUMWBJGtWoVK1Kq1XKgwPDT8QnZsPFP4Ue93cz69dUMsU";
+    private static final String USERNAME = config.getUsername();
+    private static final String AUTHKEY = config.getAccessKey();
     private static final String CLIENT_USERNAME = "client5";
     private static final String CLIENT_PASSWORD = "simple123";
 

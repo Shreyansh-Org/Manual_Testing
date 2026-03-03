@@ -19,6 +19,28 @@ public class config {
     public String ssName= "screenShot_01";
     public WebElement currElement;
 
+    public static String getUsername() {
+        String username = System.getenv("LT_USERNAME");
+        if (username == null || username.isEmpty()) {
+            throw new RuntimeException("LT_USERNAME environment variable is not set");
+        }
+        return username;
+    }
+
+    public static String getAccessKey() {
+        String accessKey = System.getenv("LT_ACCESS_KEY");
+        if (accessKey == null || accessKey.isEmpty()) {
+            throw new RuntimeException("LT_ACCESS_KEY environment variable is not set");
+        }
+        return accessKey;
+    }
+
+    public static void staticWait(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (Exception ignored) {}
+    }
+
     //***************************Prod config*************************
 
     public Map<String,String> getProdConfig(){

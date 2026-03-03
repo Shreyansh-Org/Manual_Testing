@@ -5,7 +5,7 @@
         <classes>
             <class name="webhook.ChromeTest">
                 <methods>
-                    <include name="ipinfo3"/>
+                    <include name="testIm"/>
                 </methods>
             </class>
         </classes>

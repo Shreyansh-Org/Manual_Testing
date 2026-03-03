@@ -23,12 +23,8 @@ public class BaseClassWebhook extends config {
 
         Map<String,String> map= getStageConfig();
 
-        String username = System.getenv("LT_USERNAME") == null
-          ? "Your LT Username"
-          : System.getenv("LT_USERNAME");
-        String authkey = System.getenv("LT_ACCESS_KEY") == null
-          ? "Your LT AccessKey"
-          : System.getenv("LT_ACCESS_KEY");
+        String username = getUsername();
+        String authkey = getAccessKey();
         String hub = map.get("hub");
 
         DesiredCapabilities browserOptions = new DesiredCapabilities();
@@ -44,7 +40,7 @@ public class BaseClassWebhook extends config {
         ltOptions.put("w3c", true);
         ltOptions.put("plugin", "testNG-testNG");
 //        ltOptions.put("tunnel",true);
-        browserOptions.setCapability("LT:Options", ltOptions);
+        browserOptions.setCapability("lt:options", ltOptions);
         browserOptions.setCapability("selenium_version", "4.8.0");
 
         if (githubURL != null) {

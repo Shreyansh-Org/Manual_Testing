@@ -20,12 +20,8 @@ public class BaseClassRealDeviceAndroid extends config {
 
         Map<String,String> map= getProdConfig();
 
-        String username = System.getenv("LT_USERNAME") == null
-          ? "Your LT Username"
-          : System.getenv("LT_USERNAME");
-        String authkey = System.getenv("LT_ACCESS_KEY") == null
-          ? "Your LT AccessKey"
-          : System.getenv("LT_ACCESS_KEY");
+        String username = getUsername();
+        String authkey = getAccessKey();
         String hub = map.get("mobileHub");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();

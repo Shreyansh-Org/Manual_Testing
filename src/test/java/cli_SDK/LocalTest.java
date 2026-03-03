@@ -1,313 +1,362 @@
 package cli_SDK;
 
 import io.github.lambdatest.SmartUISnapshot;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.*;
 import org.testng.annotations.Test;
 
 import java.util.*;
 
 public class LocalTest extends BaseClassCliLocal {
 
-    @Test
-    public void test01() throws Exception {
-        System.out.println("Loading Url");
-        driver.get("https://www.lambdatest.com/support/docs/");
-        Thread.sleep(1000);
-        SmartUISnapshot.smartuiSnapshot(driver, "docs");
-        Thread.sleep(5000);
-        driver.get("https://www.lambdatest.com");
-        Thread.sleep(1000);
-        SmartUISnapshot.smartuiSnapshot(driver, "homepage");
-        Thread.sleep(1000);
-        System.out.println("Test Finished");
+  @Test
+  public void ignoreSelect() throws Exception {
+
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/");
+
+    String[] selectors= {"//h1","//*[@id=\"layout-rca-link--layout2\"]","//h2","//*[@id=\"live-interaction-button\"]","//*[@id=\"feature-security\"]","//*[@id=\"accessibility-link--partial-accessibility-compliance\"]"};
+    List<WebElement> elements = new ArrayList<>(List.of());
+    for (String selector : selectors) {
+      elements.add(waitUntilElementIsPresent(driver, 10, selector));
     }
 
-    @Test
-    public void test02() throws Exception {
-        driver.get("https://www.kayak.co.in/privacy");
-        SmartUISnapshot.smartuiSnapshot(driver, "kayak01");
+    Map<String, Object> selectOptions = new HashMap<>();
+    selectOptions.put("sync",true);
+    List<String> selectXpathSelectors = Arrays.asList(selectors);
+    Map<String, Object> selectDOM = new HashMap<>();
+    selectDOM.put("xpath", selectXpathSelectors);
+//    selectDOM.put("elements",elements);
+    selectOptions.put("selectDOM", selectDOM);
+
+    Map<String, Object> ignoreOptions = new HashMap<>();
+    ignoreOptions.put("sync",true);
+    List<String> ignoreXpath = Arrays.asList(selectors);
+    Map<String, Object> ignoreDOM = new HashMap<>();
+    ignoreDOM.put("xpath", ignoreXpath);
+//    ignoreDOM.put("elements", elements);
+    ignoreOptions.put("ignoreDOM", ignoreDOM);
+
+    SmartUISnapshot.smartuiSnapshot(driver, "ignoreSelect", selectOptions);
+  }
+
+  @Test
+  public void localTunnel() throws Exception {
+    driver.get("http://localhost:3000/");
+    SmartUISnapshot.smartuiSnapshot(driver, "local_01");
+  }
+
+  @Test
+  public void swagLabs() throws Exception {
+
+    driver.get("https://www.saucedemo.com/v1/");
+    String input = "//input[@id=\"user-name\"]";
+    currElement = waitUntilElementIsPresent(driver, 5, input);
+    currElement.sendKeys("standard_user");
+    Map<String, Object> options = new HashMap<>();
+    Map<String, Object> ignoreDOM = new HashMap<>();
+    ignoreDOM.put("xpath", new String[] { "//input[@id='user-name']" });
+    options.put("selectDOM", ignoreDOM);
+    SmartUISnapshot.smartuiSnapshot(driver, "LoginPage", options);
+    String password = "//input[@data-test=\"password\"]";
+    currElement = waitUntilElementIsPresent(driver, 5, password);
+    currElement.sendKeys("secret_sauce");
+    String loginBtn = "//input[@id=\"login-button\"]";
+    currElement = waitUntilElementIsPresent(driver, 5, loginBtn);
+    currElement.click();
+    SmartUISnapshot.smartuiSnapshot(driver, "HomePage", options);
+    String cart = "//a[@href=\"./cart.html\"]";
+    currElement = waitUntilElementIsPresent(driver, 5, cart);
+    currElement.click();
+    SmartUISnapshot.smartuiSnapshot(driver, "Cart");
+    String sideNav = "//button[text()=\"Open Menu\"]";
+    currElement = waitUntilElementIsPresent(driver, 5, sideNav);
+    currElement.click();
+    String aboutBtn = "//a[@id=\"about_sidebar_link\"]";
+    currElement = waitUntilElementIsPresent(driver, 5, aboutBtn);
+    Thread.sleep(3000);
+    currElement.click();
+    SmartUISnapshot.smartuiSnapshot(driver, "About");
+    driver.get("https://ipinfo.io/");
+    Thread.sleep(3000);
+    Map<String, Object> ipInfoIgnoreDom = new HashMap<>();
+    ipInfoIgnoreDom.put("xpath", new String[] { "//div[@id=\"api-requests\"]" });
+    Map<String, Object> ipInfoOptions = new HashMap<>();
+    ipInfoOptions.put("ignoreDOM", ipInfoIgnoreDom);
+    SmartUISnapshot.smartuiSnapshot(driver, "ipInfo", ipInfoOptions);
+  }
+
+  @Test
+  public void expiredBadSsl() throws Exception {
+    driver.get("https://expired.badssl.com/");
+    SmartUISnapshot.smartuiSnapshot(driver,"ss-01");
+  }
+
+  @Test
+  public void longSsName() throws Exception {
+
+    driver.get("https://www.saucedemo.com/v1/");
+    String input = "//input[@id=\"user-name\"]";
+    currElement = waitUntilElementIsPresent(driver, 5, input);
+    currElement.sendKeys("654321");
+    Map<String, Object> options = new HashMap<>();
+    Map<String, Object> ignoreDOM = new HashMap<>();
+    ignoreDOM.put("xpath", new String[] { "//input[@id='user-name']" });
+    options.put("selectDOM", ignoreDOM);
+    SmartUISnapshot.smartuiSnapshot(driver, generateRandomString(450), options);
+    SmartUISnapshot.smartuiSnapshot(driver, generateRandomString(460), options);
+    SmartUISnapshot.smartuiSnapshot(driver, generateRandomString(452), options);
+    SmartUISnapshot.smartuiSnapshot(driver, generateRandomString(454), options);
+    SmartUISnapshot.smartuiSnapshot(driver, generateRandomString(480), options);
+    SmartUISnapshot.smartuiSnapshot(driver, generateRandomString(430), options);
+    SmartUISnapshot.smartuiSnapshot(driver, generateRandomString(450), options);
+    SmartUISnapshot.smartuiSnapshot(driver, generateRandomString(451), options);
+    SmartUISnapshot.smartuiSnapshot(driver, generateRandomString(440), options);
+    SmartUISnapshot.smartuiSnapshot(driver, generateRandomString(460), options);
+    SmartUISnapshot.smartuiSnapshot(driver, generateRandomString(480), options);
+    SmartUISnapshot.smartuiSnapshot(driver, generateRandomString(420), options);
+
+  }
+
+  @Test
+  public void layout_01() throws Exception {
+    driver.get("https://in.pinterest.com/");
+    Map<String, Object> config = new HashMap<>();
+    config.put("ignoreType", new String[] { "layout" });
+    SmartUISnapshot.smartuiSnapshot(driver, "Pinterest", config);
+  }
+
+  @Test
+  public void testIm() throws Exception {
+    Map<String, Object> ignoreOptions = new HashMap<>();
+    List<String> ignoreID = Arrays.asList("time-value");
+    Map<String, List<String>> ignoreDOM = new HashMap<>();
+    ignoreDOM.put("id", ignoreID);
+    ignoreOptions.put("ignoreDOM", ignoreDOM);
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver, "dynamic-page",ignoreOptions);
+  }
+
+  @Test
+  public void manyUrls() throws Exception {
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm");
+    driver.get("https://ipinfo.io/");
+    SmartUISnapshot.smartuiSnapshot(driver, "Ip-info");
+    driver.get("https://fast.com/");
+    SmartUISnapshot.smartuiSnapshot(driver, "fast");
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm1");
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm2");
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm3");
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestI4");
+    driver.get("https://demo.testim.io/login");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm5");
+    driver.get("https://demo.testim.io/login");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm6");
+    driver.get("https://demo.testim.io/login");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm7");
+    driver.get("https://demo.testim.io/login");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm8");
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm9");
+    driver.get("https://demo.testim.io/login");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm10");
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm11");
+    driver.get("https://demo.testim.io/login");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm12");
+    driver.get("https://demo.testim.io/login");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm13");
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm14");
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm15");
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver, "TestIm16");
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver, "`!\"#$%&'    ()*+,-./:;<=>?@[\\\\]^_\\`{|}~`; ");
+    driver.get("https://demo.testim.io/");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_01");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_02");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_03");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_04");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_05");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_06");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_07");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_08");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_09");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_10");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_11");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_12");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_13");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_14");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_15");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_16");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_17");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_18");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_19");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_20");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_21");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_22");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_23");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_24");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_25");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_26");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_27");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_28");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_29");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_30");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_31");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_32");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_33");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_34");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_35");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_36");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_37");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_38");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_39");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_40");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_41");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_42");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_43");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_44");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_45");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_46");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_47");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_48");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_49");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_50");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_51");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_52");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_53");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_54");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_55");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_56");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_57");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_58");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_59");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_60");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_61");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_62");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_63");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_64");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_65");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_66");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_67");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_68");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_69");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_70");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_71");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_72");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_73");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_74");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_75");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_76");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_77");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_78");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_79");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_80");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_81");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_82");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_83");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_84");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_85");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_86");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_87");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_88");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_89");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_90");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_91");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_92");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_93");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_94");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_95");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_96");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_97");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_98");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_99");
+    SmartUISnapshot.smartuiSnapshot(driver, "MultiSelect_100");
+  }
+
+  @Test
+  public void checkBrowserVersion() throws Exception {
+    driver.get("https://demo.testim.io/login");
+    SmartUISnapshot.smartuiSnapshot(driver, "Version");
+  }
+
+  @Test
+  public void responsiveDom() throws Exception {
+    driver.get("https://www.racv.com.au/travel-experiences/resorts.html");
+    Objects.requireNonNull(waitUntilElementIsPresent(driver, 10, "//input[@id='daterange-picker']")).click();
+    SmartUISnapshot.smartuiSnapshot(driver,"racv");
+
+    driver.manage().window().setSize(new Dimension(360,720));
+    Thread.sleep(10000);
+    Map<String, Object> innerMap = new HashMap<>();
+    innerMap.put("devices", Arrays.asList("iPhone 14", "Galaxy S23"));
+    innerMap.put("fullPage", true);
+    innerMap.put("orientation", "portrait");
+
+    // Outer map with key "mobile"
+    Map<String, Object> outerMap = new HashMap<>();
+    outerMap.put("mobile", innerMap);
+    SmartUISnapshot.smartuiSnapshot(driver,"racv",outerMap);
+  }
+
+  @Test
+  public void elementScreenshot() throws Exception {
+    driver.get("https://www.gov.uk/");
+    Map<String,Object> config = new HashMap<>();
+    config.put("sync",true);
+    HashMap<String, String> locator = new HashMap<>();
+    locator.put("xpath", "//*[@id='content']/div/div[2]/div/div[1]/section/div[1]/div/div/h2");
+//    locator.put("xpath","//div");
+    WebElement ele= driver.findElement(By.xpath("//div"));
+    config.put("element", locator);
+
+    SmartUISnapshot.smartuiSnapshot(driver,"elementSnapshot",config);
+  }
+
+  @Test
+  public void slowLoadingPage() throws Exception {
+    driver.get("https://www.lambdatest.com/");
+    HashMap<String,Object> config = new HashMap<>();
+
+    Map<String, Object> selectOptions = new HashMap<>();
+    List<String> selectCSSSelectors = List.of("time-valuekfnkfn");
+    Map<String, List<String>> selectDOM = new HashMap<>();
+    selectDOM.put("id", selectCSSSelectors);
+    selectOptions.put("selectDOM", selectDOM);
+
+    SmartUISnapshot.smartuiSnapshot(driver,"slow",selectOptions);
+  }
+
+  @Test
+  public void quickScrollToBottom() throws InterruptedException {
+    long lastHeight = ((Number) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight")).longValue();
+    while (true) {
+      ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
+      Thread.sleep(2000);
+
+      long newHeight = ((Number) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight")).longValue();
+      if (newHeight == lastHeight) {
+        break;
+      }
+      lastHeight = newHeight;
     }
+    ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
+    Thread.sleep(1000); // wait for 1 second
+  }
 
-    @Test
-    public void test03() throws Exception {
-        driver.get("https://www.kayak.co.in/c/company/");
-        Map<String,Object> config= new HashMap<>();
-        config.put("loadDomContent",true);
-        SmartUISnapshot.smartuiSnapshot(driver,"kayak01", config);
-    }
-
-    @Test
-    public void test04() throws Exception {
-        driver.get("https://www.kayak.co.in");
-        SmartUISnapshot.smartuiSnapshot(driver,"kayak01");
-    }
-
-    @Test
-    public void ipInfo() throws Exception {
-
-        Map<String, Object> selectOptions = new HashMap<>();
-        List<String> selectCSSSelectors = Arrays.asList("h1.heading-h1");
-        Map<String, List<String>> selectDOM = new HashMap<>();
-        selectDOM.put("cssSelector", selectCSSSelectors);
-        selectOptions.put("selectDOM", selectDOM);
-
-        Map<String, Object> ignoreOptions = new HashMap<>();
-        List<String> ignoreID = Arrays.asList("api-requests");
-        List<String> ignoreCSSSelectors = Arrays.asList(".overflow-hidden section:first-of-type",
-                ".overflow-hidden section:nth-of-type(2)", "section:nth-of-type(6) .swiper", "section:nth-of-type(7) .swiper");
-        Map<String, List<String>> ignoreDOM = new HashMap<>();
-        ignoreDOM.put("id", ignoreID);
-        ignoreDOM.put("cssSelector", ignoreCSSSelectors);
-        ignoreOptions.put("ignoreDOM", ignoreDOM);
-
-        driver.get("https://ipinfo.io/");
-        SmartUISnapshot.smartuiSnapshot(driver,"ipInfo_01",ignoreOptions);
-    }
-
-    @Test
-    public void ipInfo1() throws Exception {
-        driver.get("https://ipinfo.io/");
-        SmartUISnapshot.smartuiSnapshot(driver,"ipInfo_01");
-    }
-
-    @Test
-    public void test06() throws Exception {
-        driver.get("https://www.awwwards.com/websites/css3/");
-        Map<String,Object> config= new HashMap<>();
-        config.put("loadDomContent",true);
-//        config.put("allowedHostnames",new String[]{"assets.awwwards.com"});
-        JavascriptExecutor js= (JavascriptExecutor) driver;
-        js.executeScript("window.scrollTo()");
-        Thread.sleep(2000);
-        SmartUISnapshot.smartuiSnapshot(driver,"heavyPage01",config);
-    }
-
-    @Test
-    public void test07() throws Exception {
-        driver.get("https://www.amazon.in/");
-        Map<String,Object> config= new HashMap<>();
-        config.put("loadDomContent",true);
-        SmartUISnapshot.smartuiSnapshot(driver,"amazonHomePage01",config);
-    }
-
-    @Test
-    public void localTunnel() throws Exception {
-        driver.get("http://localhost:3000/");
-        Thread.sleep(3000);
-        SmartUISnapshot.smartuiSnapshot(driver,"local_01");
-    }
-
-    @Test
-    public void atyponTunnel() throws Exception {
-        String[] urls1= new String[]{
-                "https://econtent.hogrefe.com/exams/zkjp",
-                "https://econtent.hogrefe.com/exam/kij/info",
-                "https://econtent.hogrefe.com/action/doSearch?AllField=LastModified:",
-                "https://econtent.hogrefe.com/action/showLogin?redirectUri=%2Fdoi%2Ffull%2F10.1026%2F0932-4089.50.3.163",
-                "https://econtent.hogrefe.com/action/showPublications",
-                "https://econtent.hogrefe.com/doi/10.1024/2235-0977/a000331",
-                "https://econtent.hogrefe.com/exams/praxis",
-                "https://econtent.hogrefe.com/action/updateInstitutionUsageReport",
-                "https://econtent.hogrefe.com/exams/psychotherapy",
-                "https://econtent.hogrefe.com/exams",
-                "https://econtent.hogrefe.com/action/showInstitutionUsageReport",
-                "https://econtent.hogrefe.com/doi/full/10.1024//1011-6877.13.34.173",
-                "https://econtent.hogrefe.com/action/showLogin?redirectUri=%2Faction%2FshowCart%3FFlowID%3D2",
-                "https://econtent.hogrefe.com/action/doSearch?AllField=*%3A*&ConceptID=&pageSize=20&startPage=100",
-                "https://econtent.hogrefe.com/action/ssostart",
-                "https://econtent.hogrefe.com/action/showLogin?redirectUri=%2Fwat",
-                "https://econtent.hogrefe.com/doi/10.1027/1192-5604/a000099",
-                "https://econtent.hogrefe.com/doi/10.1027/1192-5604/a000099",
-                "https://econtent.hogrefe.com/action/showAlertSettings?isAddCitationAlert=true#citAlerts",
-                "https://econtent.hogrefe.com/action/showPreferences?menuTab=AccountInfo",
-                "https://econtent.hogrefe.com/doi/10.1027/2192-0923/a000239",
-                "https://econtent.hogrefe.com/doi/10.1027/1015-5759.12.1.72",
-                "https://econtent.hogrefe.com/action/showLogin?",
-                "https://econtent.hogrefe.com/action/doSearch?",
-                "https://econtent.hogrefe.com/action/showLogin",
-                "https://econtent.hogrefe.com/doi/abs/10.1027/1864-9335/a000202",
-                "https://econtent.hogrefe.com/doi/abs/10.1027/1864-9335/a000202",
-                "https://econtent.hogrefe.com/action/registration",
-                "https://econtent.hogrefe.com/doi/full/10.1027//1016-9040.4.2.59",
-                "https://web.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fecontent.hogrefe.com%2Fdoi%2F10.1024%2F1661-",
-                "https://econtent.hogrefe.com/",
-                "https://econtent.hogrefe.com/action/showPublications",
-                "https://econtent.hogrefe.com/journal/cri",
-                "https://econtent.hogrefe.com/loi/dia/group/d2000.y2009",
-                "https://econtent.hogrefe.com/toc/zfb/3/3",
-                "https://econtent.hogrefe.com/doi/10.1027/1192-5604/a000099",
-                "https://econtent.hogrefe.com/doi/10.1027/0227-5910/a000715",
-                "https://econtent.hogrefe.com/doi/10.1026/0012-1924/a000244",
-                "https://econtent.hogrefe.com/doi/10.1026/0012-1924/a000244",
-                "https://econtent.hogrefe.com/doi/10.1026/0012-1924/a000244",
-                "https://econtent.hogrefe.com/doi/epdf/10.1024/2673-8627/a000020",
-                "https://econtent.hogrefe.com/doi/suppl/10.1027/1618-3169/a000260",
-                "https://econtent.hogrefe.com/action/showPreferences?menuTab=Alerts",
-                "https://econtent.hogrefe.com/action/doSearch?",
-                "https://econtent.hogrefe.com/toc/aga/4/4",
-                "https://econtent.hogrefe.com/topic/collections/psych?target=titleSearch&content=title",
-                "https://econtent.hogrefe.com/doi/10.1024/1422-4917/a000971",
-                "https://econtent.hogrefe.com/action/showPreferences?menuTab=Articles&type=favorite%2Ctitle&type=subscribed%2Ctitle",
-                "https://econtent.hogrefe.com/doi/10.1027/1016-9040.12.3.206",
-                "https://econtent.hogrefe.com/doi/full/10.1027/1614-0001/a000044"
-        };
-
-        String[] urls= new String[]{
-        "https://asce-stag.literatumonline.com/",
-                "https://asce-stag.literatumonline.com/doi/book/10.1061/9780784416105",
-                "https://asce-stag.literatumonline.com/topic/ascebookseries/b-socpubs",
-                "https://asce-stag.literatumonline.com/ebooks",
-                "https://asce-stag.literatumonline.com/action/doSearch?AllField=engineer",
-                "https://asce-stag.literatumonline.com/doi/10.1061/JAEEEZ.ASENG-5437",
-                "https://asce-stag.literatumonline.com/",
-                "https://asce-stag.literatumonline.com/doi/10.1061/(ASCE)IR.1943-4774.0000520",
-                "https://asce-stag.literatumonline.com/action/showInstitutionAdminBanner",
-                "https://asce-stag.literatumonline.com/doi/10.1061/%28ASCE%29GM.1943-5622.0000257",
-                "https://asce-stag.literatumonline.com/action/showInstitutionAdminBanner?institutionUserId=520",
-                "https://asce-stag.literatumonline.com/search/saved",
-                "https://asce-stag.literatumonline.com/action/institutionMultiIpShow?institutionUUID=5941834b-3e88-44ea-97f6-745a2bdf22cd",
-                "https://asce-stag.literatumonline.com/action/institutionMultiIpShow?institutionUUID=a0a40afd-57b6-4311-97bb-29ca69af32a4",
-                "https://asce-stag.literatumonline.com/action/ssostart",
-                "https://asce-stag.literatumonline.com/doi/10.1061/(ASCE)WR.1943-5452.0001492",
-                "https://asce-stag.literatumonline.com/action/showAlertSettings?newContentAlert=true",
-                "https://asce-stag.literatumonline.com/action/doSearch?AllField=engineer",
-                "https://asce-stag.literatumonline.com/action/doSearch?AllField=0893-1321&startPage=&target=custom-page&content=websitePage",
-                "https://asce-stag.literatumonline.com/admin/adSample.jsp?adId=1008",
-                "https://asce-stag.literatumonline.com/action/doSearch?AllField=1943-5525&startPage=&target=custom-page&content=websitePage",
-                "https://asce-stag.literatumonline.com/action/doSearch?field1=AllField&text1=engineer&field2=Title&text2=test&publication=&Ppub=&AllField=engineer&content=articlesChapters&target=default",
-                "https://asce-stag.literatumonline.com/action/doSearch?field1=AllField&text1=engineer&field2=Title&text2=test&publication=&Ppub=&AllField=engineer&content=articlesChapters&target=default",
-                "https://asce-stag.literatumonline.com/action/doSearch?AllField=test&startPage=0&sortBy=Earliest",
-                "https://asce-stag.literatumonline.com/action/doSearch?AllField=Coordinated+Control+of+a+Tethered+Autonomous+Docking+UAV",
-                "https://asce-stag.literatumonline.com/doi/10.1061/9780784415443"};
-        int i=0;
-        for(;i<urls1.length;i++){
-            driver.get(urls1[i]);
-            System.out.println("Open successfully "+i);
-            SmartUISnapshot.smartuiSnapshot(driver,"Atypon-ss-"+i);
-        }
-        System.out.println(i);
-    }
-
-    @Test
-    public void kayakTunnel() throws Exception {
-        String[] urls= new String[]{
-                "https://www.b.runwaynine.com/about",
-                "https://www.b.runwaynine.com/careers",
-                "https://momondo-kyk-wlde.affiliate.b.runwaynine.com/about",
-                "https://momondo-kyk-wlde.affiliate.b.runwaynine.com/careers"
-        };
-        int i=1;
-        for(String s:urls){
-            driver.get(s);
-            SmartUISnapshot.smartuiSnapshot(driver,"Kayak-ss-"+i++);
-        }
-    }
-
-    @Test
-    public void swagLabs() throws Exception {
-
-        driver.get("https://www.saucedemo.com/v1/");
-        String input= "//input[@id=\"user-name\"]";
-        currElement= waitUntilElementIsPresent(driver,5,input);
-        currElement.sendKeys("standard_user");
-        Map<String,Object> options= new HashMap<>();
-        Map<String,Object> ignoreDOM= new HashMap<>();
-        ignoreDOM.put("xpath",new String[]{"//input[@id='user-name']"});
-        options.put("selectDOM",ignoreDOM);
-        SmartUISnapshot.smartuiSnapshot(driver,"LoginPage",options);
-        String password= "//input[@data-test=\"password\"]";
-        currElement= waitUntilElementIsPresent(driver,5,password);
-        currElement.sendKeys("secret_sauce");
-        String loginBtn= "//input[@id=\"login-button\"]";
-        currElement= waitUntilElementIsPresent(driver,5,loginBtn);
-        currElement.click();
-        SmartUISnapshot.smartuiSnapshot(driver,"HomePage",options);
-        String cart= "//a[@href=\"./cart.html\"]";
-        currElement= waitUntilElementIsPresent(driver,5,cart);
-        currElement.click();
-        SmartUISnapshot.smartuiSnapshot(driver,"Cart");
-        String sideNav= "//button[text()=\"Open Menu\"]";
-        currElement= waitUntilElementIsPresent(driver,5,sideNav);
-        currElement.click();
-        String aboutBtn= "//a[@id=\"about_sidebar_link\"]";
-        currElement= waitUntilElementIsPresent(driver,5,aboutBtn);
-        Thread.sleep(3000);
-        currElement.click();
-        SmartUISnapshot.smartuiSnapshot(driver,"About");
-        driver.get("https://ipinfo.io/");
-        Thread.sleep(3000);
-        Map<String,Object> ipInfoIgnoreDom= new HashMap<>();
-        ipInfoIgnoreDom.put("xpath",new String[]{"//div[@id=\"api-requests\"]"});
-        Map<String,Object> ipInfoOptions= new HashMap<>();
-        ipInfoOptions.put("ignoreDOM",ipInfoIgnoreDom);
-        SmartUISnapshot.smartuiSnapshot(driver,"ipInfo",ipInfoOptions);
-    }
-
-    @Test
-    public void expiredBadSsl() throws Exception {
-        driver.get("https://expired.badssl.com/");
-        SmartUISnapshot.smartuiSnapshot(driver,"ss-01");
-    }
-
-    @Test
-    public void longSsName() throws Exception {
-
-        driver.get("https://www.saucedemo.com/v1/");
-        String input= "//input[@id=\"user-name\"]";
-        currElement= waitUntilElementIsPresent(driver,5,input);
-        currElement.sendKeys("654321");
-        Map<String,Object> options= new HashMap<>();
-        Map<String,Object> ignoreDOM= new HashMap<>();
-        ignoreDOM.put("xpath",new String[]{"//input[@id='user-name']"});
-        options.put("selectDOM",ignoreDOM);
-        SmartUISnapshot.smartuiSnapshot(driver,generateRandomString(450),options);
-        SmartUISnapshot.smartuiSnapshot(driver,generateRandomString(460),options);
-        SmartUISnapshot.smartuiSnapshot(driver,generateRandomString(452),options);
-        SmartUISnapshot.smartuiSnapshot(driver,generateRandomString(454),options);
-        SmartUISnapshot.smartuiSnapshot(driver,generateRandomString(480),options);
-        SmartUISnapshot.smartuiSnapshot(driver,generateRandomString(430),options);
-        SmartUISnapshot.smartuiSnapshot(driver,generateRandomString(450),options);
-        SmartUISnapshot.smartuiSnapshot(driver,generateRandomString(451),options);
-        SmartUISnapshot.smartuiSnapshot(driver,generateRandomString(440),options);
-        SmartUISnapshot.smartuiSnapshot(driver,generateRandomString(460),options);
-        SmartUISnapshot.smartuiSnapshot(driver,generateRandomString(480),options);
-        SmartUISnapshot.smartuiSnapshot(driver,generateRandomString(420),options);
-
-    }
-
-    @Test
-    public void multipleUrlsKayak() throws Exception {
-        driver.get("https://www.kayak.co.in");
-        Thread.sleep(30000);
-        JavascriptExecutor js= (JavascriptExecutor) driver;
-        js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
-        List<WebElement> elements= driver.findElements(By.xpath("//div[@class=\"w6G7-links\"]//li/a"));
-        for(WebElement ele:elements){
-            WebDriverWait wait= new WebDriverWait(driver,10);
-            wait.until(ExpectedConditions.elementToBeClickable(ele));
-            Actions actions = new Actions(driver);
-            actions.keyDown(Keys.COMMAND) // hold Command key (⌘) on Mac
-              .click(ele)
-              .keyUp(Keys.COMMAND)   // release Command key
-              .build()
-              .perform();
-        }
-        Set<String> windows= driver.getWindowHandles();
-        int i=0;
-        for(String window:windows){
-            driver.switchTo().window(window);
-            Thread.sleep(3000);
-            Map<String,Object> options = new HashMap<>();
-            options.put("fullPage",true);
-            SmartUISnapshot.smartuiSnapshot(driver,"ss_"+i+"_test");
-            i++;
-        }
-    }
+  @Test
+  public void screenshotThreashold() throws Exception {
+    Map<String,Object> config= new HashMap<>();
+    config.put("approvalThreshold",0);
+    config.put("rejectionThreshold",0.01);
+    driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
+    SmartUISnapshot.smartuiSnapshot(driver,"dynamicPage",config);
+  }
 
 }
