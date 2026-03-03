@@ -1,7 +1,7 @@
 package webhook;
 
 import Common.config;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -31,14 +31,19 @@ public class BaseClassWebhook extends config {
           : System.getenv("LT_ACCESS_KEY");
         String hub = map.get("hub");
 
-        ChromeOptions browserOptions = new ChromeOptions();
+        DesiredCapabilities browserOptions = new DesiredCapabilities();
+        browserOptions.setCapability("browserName", "safari");
         HashMap<String, Object> ltOptions = new HashMap<String, Object>();
         ltOptions.put("username", username);
         ltOptions.put("accessKey", authkey);
+        ltOptions.put("platform","macos sonoma");
+//        ltOptions.put("fixedIP","10.244.36.216");
         ltOptions.put("project", projectName);
         ltOptions.put("smartUI.project", projectName);
+//        ltOptions.put("smartUI.build","b1");
         ltOptions.put("w3c", true);
         ltOptions.put("plugin", "testNG-testNG");
+//        ltOptions.put("tunnel",true);
         browserOptions.setCapability("LT:Options", ltOptions);
         browserOptions.setCapability("selenium_version", "4.8.0");
 

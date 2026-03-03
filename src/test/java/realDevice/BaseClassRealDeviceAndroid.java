@@ -10,24 +10,32 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
-public class BaseClassRealDevice extends config {
+public class BaseClassRealDeviceAndroid extends config {
 
 
-    AppiumDriver driver;
+    protected AppiumDriver<?> driver;
 
     @BeforeClass
     public void setup() throws MalformedURLException {
 
-        Map<String,String> map= getStageConfig();
+        Map<String,String> map= getProdConfig();
 
-        String username = map.get("userName");
-        String authkey = map.get("accessKey");
+        String username = System.getenv("LT_USERNAME") == null
+          ? "Your LT Username"
+          : System.getenv("LT_USERNAME");
+        String authkey = System.getenv("LT_ACCESS_KEY") == null
+          ? "Your LT AccessKey"
+          : System.getenv("LT_ACCESS_KEY");
         String hub = map.get("mobileHub");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName", "android");
-        capabilities.setCapability("app", map.get("appId"));
-        capabilities.setCapability("smartUI.project", "Automation_05");
+        capabilities.setCapability("deviceName",".*");
+//        capabilities.setCapability("platformVersion","15");
+//        capabilities.setCapability("deviceOrientation", "landscape");
+//        capabilities.setCapability("app", map.get("appId"));
+        capabilities.setCapability("smartUI.project", projectName);
+//        capabilities.setCapability("smartUI.build","b1");
         capabilities.setCapability("idleTimeout", 30);
         capabilities.setCapability("queueTimeout", 500);
         capabilities.setCapability("autoGrantPermissions", true);
@@ -38,7 +46,7 @@ public class BaseClassRealDevice extends config {
         String remoteUrl= "https://" + username + ":" + authkey + hub;
         System.out.println(remoteUrl);
 
-        driver= new AppiumDriver(new URL(remoteUrl), capabilities);
+        driver= new AppiumDriver<>(new URL(remoteUrl), capabilities);
 
     }
 

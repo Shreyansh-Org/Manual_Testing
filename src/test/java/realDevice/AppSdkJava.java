@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RealTest extends BaseClassRealDevice {
+public class AppSdkJava extends BaseClassRealDeviceAndroid {
 
     @Test
     public void test01() throws Exception{

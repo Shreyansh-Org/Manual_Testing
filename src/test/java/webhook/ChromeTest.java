@@ -25,7 +25,7 @@ public class ChromeTest extends BaseClassWebhook {
         driver.executeScript("smartui.takeScreenshot=pricing-page");
         Thread.sleep(1000);
 
-        driver.get("https://www.lambdatest.com/support/docs/");
+        driver.get("https://ltqa-frontend.lambdatestinternal.com/dynamic-data-testing");
         Thread.sleep(5000);
         driver.executeScript("smartui.takeScreenshot=docs");
         System.out.println("TestNGSmartUIChrome TestFinished");
@@ -172,5 +172,29 @@ public class ChromeTest extends BaseClassWebhook {
 
     }
 
+    @Test
+    public void localTunnelFixedElement() throws Exception {
+        driver.get("http://localhost:3000/");
+        Thread.sleep(3000);
+        Map<String, Object> screenshotConfig = new HashMap<>();
+        screenshotConfig.put("smartScroll",true);
+        screenshotConfig.put("screenshotName", "FixedElement");
+        Map<String,Object> ignoreDOM= new HashMap<>();
+        ignoreDOM.put("xpath",new String[]{"//footer"});
+        screenshotConfig.put("ignoreDOM",ignoreDOM);
+        driver.executeScript("smartui.takeScreenshot", screenshotConfig);
+    }
+
+    @Test
+    public void testIm() throws Exception {
+        driver.get("https://demo.testim.io/login");
+        HashMap<String,Object> config= new HashMap<>();
+        HashMap<String,String[]> ignoreDOM = new HashMap<>();
+        ignoreDOM.put("coordinates", new String[]{
+          "0,200,0,500"});
+        config.put("screenshotName","lambdatestFullPageScreenshot");
+//        config.put("ignoreDOM", ignoreDOM);
+        driver.executeScript("smartui.takeScreenshot",config);
+    }
 
 }

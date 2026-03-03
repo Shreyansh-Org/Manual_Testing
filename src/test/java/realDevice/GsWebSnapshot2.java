@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class RealDevicesWebSnapshot extends config {
+public class GsWebSnapshot2 extends config {
 
     public static void main(String[] args) throws MalformedURLException, InterruptedException {
 

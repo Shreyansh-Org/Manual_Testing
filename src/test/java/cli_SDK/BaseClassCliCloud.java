@@ -3,8 +3,7 @@ package cli_SDK;
 import Common.config;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,7 +17,7 @@ public class BaseClassCliCloud extends config {
     public RemoteWebDriver driver;
     public String githubURL = System.getenv("GITHUB_URL");
 
-    @BeforeClass
+    @BeforeMethod
     public void setup() throws MalformedURLException {
 
         Map<String,String> map= getProdConfig();
@@ -33,14 +32,13 @@ public class BaseClassCliCloud extends config {
 
         ChromeOptions browserOptions = new ChromeOptions();
         HashMap<String, Object> ltOptions = new HashMap<String, Object>();
-        ltOptions.put("username", username);
-        ltOptions.put("accessKey", authkey);
         ltOptions.put("video", true);
         ltOptions.put("resolution", "1920x1080");
         ltOptions.put("network", true);
         ltOptions.put("build", "Build01");
         ltOptions.put("project", "Project01");
         ltOptions.put("smartUI.project", projectName);
+        ltOptions.put("smartUI.build",generateRandomString(5));
         ltOptions.put("w3c", true);
         ltOptions.put("plugin", "java-java");
         browserOptions.setCapability("LT:Options", ltOptions);
@@ -57,7 +55,7 @@ public class BaseClassCliCloud extends config {
 
     }
 
-    @AfterClass
+    @AfterMethod
     public void tearDown(){
         driver.quit();
     }

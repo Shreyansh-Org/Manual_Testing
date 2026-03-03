@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class RealDeviceWebSnapshotAndroidFinal {
+public class GsWebSnapshotAndroid {
 
     private static final String USERNAME = "shreyanshc";
     private static final String AUTHKEY = "LT_WUaUMWBJGtWoVK1Kq1XKgwPDT8QnZsPFP4Ue93cz69dUMsU";

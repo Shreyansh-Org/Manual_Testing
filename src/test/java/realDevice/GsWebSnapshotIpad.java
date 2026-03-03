@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LambdaTestSelenium {
+public class GsWebSnapshotIpad {
     private static final String USERNAME = "shreyanshc";
     private static final String AUTHKEY = "LT_WUaUMWBJGtWoVK1Kq1XKgwPDT8QnZsPFP4Ue93cz69dUMsU";
     private static final String CLIENT_USERNAME = "client5";
@@ -21,6 +21,16 @@ public class LambdaTestSelenium {
         return ((Long) js.executeScript("return Math.max(document.body.scrollHeight, document.body.offsetHeight, " +
                 "document.documentElement.clientHeight, document.documentElement.scrollHeight, " +
                 "document.documentElement.offsetHeight);")).intValue();
+    }
+
+    public static void maskElements(WebDriver driver,String[] elements){
+        WebDriverWait wt= new WebDriverWait(driver,10);
+        for(String curr:elements){
+            WebElement currElement;
+            currElement= wt.until(ExpectedConditions.presenceOfElementLocated(By.xpath(curr)));
+            JavascriptExecutor js= (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].style.visibility = 'hidden';",currElement);
+        }
     }
 
     public static void runBrowserTest(String browserName, MutableCapabilities browserOptions, Map<String, Object> caps) throws InterruptedException {
@@ -56,13 +66,11 @@ public class LambdaTestSelenium {
             submitButton.click();
 
             Thread.sleep(15000);
-//            driver.manage().window().setSize(new Dimension(398, 780));
-            Thread.sleep(10000);
             int height = getFullPageHeight(driver);
             System.out.println("height " + height);
             driver.manage().window().maximize();
-//            driver.manage().window().setSize(new Dimension(398, height));
-            Thread.sleep(10000);
+//            driver.manage().window().setSize(new Dimension(768, 1024));
+            Thread.sleep(5000);
             driver.navigate().refresh();
             Thread.sleep(20000);
         } catch (Exception e) {
@@ -83,14 +91,11 @@ public class LambdaTestSelenium {
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
 //        js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement maskElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='d-lg-inline-block text-lg-left']")));
-        System.out.println(maskElement);
-        js.executeScript("arguments[0].style.visibility = 'hidden';",maskElement);
+        maskElements(driver,new String[]{"//div[@class='module-content module-content--plain ']","//div[@class='d-lg-inline-block text-lg-left']"});
 //        js.executeScript("window.scrollTo(0,0);");
         int height = getFullPageHeight(driver);
-//        driver.manage().window().setSize(new Dimension(398, height));
-        Thread.sleep(3000);
+        driver.manage().window().setSize(new Dimension(768, 1024));
+        Thread.sleep(10000);
 
         Object response = js.executeScript("smartui.takeScreenshot", screenshotOptions);
         System.out.println(response);
